@@ -22,7 +22,6 @@ func main() {
 	emps := []Emp{
 		1: Emp{1, "huang"},
 	}
-	m
 	EmpById(emps,1).name = "j"
 	fmt.Println(EmpById(emps,1))
 
