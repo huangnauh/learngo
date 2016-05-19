@@ -73,6 +73,7 @@ func main() {
 	var temp = CelsiusFlag("temp", 20.0, "help")
 	flag.Parse()
 	fmt.Println(*temp)
+	time.Now()
 
 
 }
