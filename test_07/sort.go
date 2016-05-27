@@ -42,15 +42,58 @@ func printTracks(tracks []*Track){
 	tw.Flush()
 }
 
-func (x []*Track) len() int {
+type byArtist []*Track
+
+func (x byArtist) Len() int {
 	return len(x)
 }
 
-func (x []*Track) Less(i, j int) bool
+func (x byArtist) Less(i, j int) bool{
+	return x[i].Artist < x[j].Artist
+}
 
-Swap(i, j int)
+func (x byArtist) Swap(i, j int){
+	x[i], x[j] = x[j], x[i]
+}
+
+type customSort struct {
+	t []*Track
+	less func(x, y *Track) bool
+}
+
+func (x customSort) Len() int {
+	return len(x.t)
+}
+
+func (x customSort) Less(i, j int) bool{
+	return x.less(x.t[i], x.t[j])
+}
+
+func (x customSort) Swap(i, j int){
+	x.t[i], x.t[j] = x.t[j], x.t[i]
+}
 
 
 func main() {
-	sort.Sort()
+	printTracks(tracks)
+	sort.Sort(customSort{tracks, func(x,y *Track) bool {
+		if x.Title != y.Title {
+			return x.Title < y.Title
+		}
+
+		if x.Year != y.Year {
+			return x.Year < y.Year
+		}
+		return false
+	}})
+	printTracks(tracks)
+	//sort.Sort(sort.Reverse(byArtist(tracks)))
+	//printTracks(tracks)
+	values := []int{3, 1, 4, 1}
+	fmt.Println(sort.IntsAreSorted(values))
+	sort.Ints(values)
+	fmt.Println(sort.IntsAreSorted(values))
+	sort.Sort(sort.Reverse(sort.IntSlice(values)))
+	fmt.Println(sort.IntsAreSorted(values))
+
 }
